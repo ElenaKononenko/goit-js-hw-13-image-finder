@@ -1,9 +1,29 @@
 import template from '../templates/temp.hbs';
+import modal from '../templates/modal.hbs';
+
+import '@pnotify/core/dist/PNotify.css';
+import '@pnotify/core/dist/BrightTheme.css';
+import * as basicLightbox from 'basiclightbox';
+import refs from '../js/refs.js';
+
+const { gallery, form, btn, input, notify, mod } = refs;
+import { alert, Stack } from '@pnotify/core';
+
+const myStack = new Stack({
+  dir1: 'down',
+  dir2: 'left',
+  firstpos1: 25,
+  firstpos2: 25,
+  spacing1: 36,
+  spacing2: 36,
+  push: 'bottom',
+  context: notify,
+});
 
 export default {
-  query: 'moon',
+  query: '',
   page: 1,
-  perPage: 3,
+  perPage: 12,
   baseUrl: `https://pixabay.com/api/`,
 
   get queryValue() {
@@ -15,50 +35,61 @@ export default {
 
   getFetch(val = this.query, gallery) {
     let key = `19779483-2216087af4667397a75e88e7b`;
-    // полученное через параметры, значение из инпута сохраняет в свойство query через сеттер
     this.queryValue = val;
-
-    // прописываем параметры запроса, согласно доков API
-    // ДОБАВЛЯЕМ ПАРАМЕТР ДЛЯ СТРАНИЦ
-    let params = `?key=${key}&q=${this.query}&image_type=photo&per_page=${this.perPage}&page=${this.page}`;
-
-    // сливаем встроку запроса перед отправкой
+    let params = `?key=${key}&q=${this.query}&per_page=${this.perPage}&page=${this.page}`;
     let url = this.baseUrl + params;
-    console.log(url);
-    // создаем объект опций для запроса, по докам API, для передачи ключа
-
-    // собственно запрос и обработка ответа на него
     return fetch(url)
       .then(response => {
         return response.json();
       })
       .then(data => {
-        console.log(data.hits);
         return data.hits;
       })
       .then(result => {
+        console.log(result);
+        if (!result.length) {
+          return alert({
+            text: 'Нет совпадений',
+            type: 'error',
+            sticker: false,
+            closer: false,
+            delay: 1500,
+            animation: 'fade',
+            stack: myStack,
+          });
+        }
+
         const items = template(result);
         gallery.insertAdjacentHTML('beforeend', items);
         setTimeout(() => {
           window.scrollTo({
-            top: gallery.scrollHeight,
+            top: 100000,
             behavior: 'smooth',
           });
         }, 0);
+
+        let picture = document.querySelector('.picture');
+        picture.addEventListener('click', e => {
+          console.log(e.currentTarget);
+          // const item = modal(result);
+          // mod.insertAdjacentHTML('beforeend', item);
+          //           const instance = basicLightbox.create(`
+          //     <img src="${}" width="800" height="600">
+          // `);
+
+          // instance.show();
+        });
+
+        btn.classList.remove('isHidden');
         return gallery;
       });
   },
-
-  // метод добавления страницы
   setPage() {
     this.page += 1;
-    console.log('page: ', this.page);
     return this.page;
   },
-  // метод сброса страниц
   resetPage() {
     this.page = 1;
-    console.log('reset page', this.page);
     return this.page;
   },
 };
