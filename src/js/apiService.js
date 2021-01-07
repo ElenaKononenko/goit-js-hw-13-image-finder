@@ -4,6 +4,7 @@ import modal from '../templates/modal.hbs';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/src/styles/main.scss';
 import refs from '../js/refs.js';
 
 const { gallery, form, btn, input, notify, mod } = refs;
@@ -63,24 +64,29 @@ export default {
         gallery.insertAdjacentHTML('beforeend', items);
         setTimeout(() => {
           window.scrollTo({
-            top: 100000,
+            top: document.documentElement.scrollHeight,
             behavior: 'smooth',
           });
         }, 0);
 
-        let picture = document.querySelector('.picture');
-        picture.addEventListener('click', e => {
-          console.log(e.currentTarget);
-          // const item = modal(result);
-          // mod.insertAdjacentHTML('beforeend', item);
-          //           const instance = basicLightbox.create(`
-          //     <img src="${}" width="800" height="600">
-          // `);
+        // let picture = document.querySelector('.picture');
+        // picture.addEventListener('click', e => {
+        //   console.log(e.currentTarget);
+        //   // const item = modal(result);
+        //   // mod.insertAdjacentHTML('beforeend', item);
+        //   //           const instance = basicLightbox.create(`
+        //   //     <img src="${}" width="800" height="600">
+        //   // `);
 
-          // instance.show();
-        });
+        //   // instance.show();
+        // });
 
-        btn.classList.remove('isHidden');
+        if (result.length < this.perPage) {
+          btn.classList.add('isHidden');
+        } else {
+          btn.classList.remove('isHidden');
+        }
+
         return gallery;
       });
   },
