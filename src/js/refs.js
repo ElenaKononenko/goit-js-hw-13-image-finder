@@ -4,6 +4,6 @@ export default {
   btn: document.querySelector('.btn'),
   input: document.querySelector('.query'),
   notify: document.querySelector('.notify'),
-  // picture: document.querySelector('.picture'),
+  picture: document.querySelector('.picture'),
   mod: document.querySelector('.mod'),
 };

@@ -1,4 +1,6 @@
 import './styles.css';
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/src/styles/main.scss';
 
 import refs from './js/refs.js';
 import api from './js/apiService.js';
@@ -20,4 +22,15 @@ btn.addEventListener('click', () => {
   // api.getFetch(undefined, gallery);
   // api.getFetch(null, gallery);
   // якщо стоїть null, то не працює(
+});
+
+gallery.addEventListener('click', e => {
+  e.preventDefault();
+  if (e.target.nodeName === 'IMG') {
+    const instance = basicLightbox.create(`
+        <img src=${e.target.dataset.url} width="800" height="600">
+    `);
+
+    instance.show();
+  }
 });
