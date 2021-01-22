@@ -31,30 +31,26 @@ export default {
     return (this.query = val);
   },
 
-  getFetch(val = this.query, gallery) {
+  async getFetch(val = this.query, gallery) {
     let key = `19779483-2216087af4667397a75e88e7b`;
     this.queryValue = val;
     let params = `?key=${key}&q=${this.query}&per_page=${this.perPage}&page=${this.page}`;
     let url = this.baseUrl + params;
-    return fetch(url)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        return data.hits;
-      })
-      .then(result => {
-        if (!result.length) {
-          return message();
-        }
-        const items = template(result);
-        gallery.insertAdjacentHTML('beforeend', items);
+    const response = await fetch(url);
+    const result = await response.json();
+    const data = result.hits;
 
-        autoLoader(this);
-        // ///////////////////////////////////
-        //загрузка через кнопку та скроллТу))
-        // manualLoader(result, this);
-      });
+    if (!data.length) {
+      return message();
+    }
+    const items = template(data);
+    const fotos = gallery.insertAdjacentHTML('beforeend', items);
+
+    autoLoader(this);
+    // ///////////////////////////////////
+    //загрузка через кнопку та скроллТу))
+    // manualLoader(result, this);
+    return fotos;
   },
   setPage() {
     this.page += 1;

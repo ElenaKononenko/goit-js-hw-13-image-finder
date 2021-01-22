@@ -13,6 +13,9 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   background-color: rgb(223, 219, 219);
+  background-image: url(./images/37010-teksturyi_rozovyiy.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   width: 80%;
   margin: auto;
 }
@@ -22,7 +25,7 @@ body {
 .search-form {
   margin-bottom: 20px;
   display: flex;
-  margin-top: 30px;
+  margin-top: 10px;
   align-items: center;
 }
 .isHidden {
@@ -48,6 +51,7 @@ img {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 10px 10px;
 }
 .itemList {
   margin: 10px;
@@ -67,4 +71,22 @@ i {
 .photo-card {
   width: 300px;
   height: 250px;
+}
+.material-icons {
+  color: rgb(65, 37, 94);
+}
+.query {
+  border: solid 2px rosybrown;
+  height: 30px;
+  border-radius: 20px 20px;
+  color: rgb(153, 115, 115);
+  font-size: 20px;
+  outline-style: none;
+}
+.title {
+  font-size: 60px;
+  margin-bottom: 0px;
+  color: rgb(143, 82, 82);
+  text-align: center;
+  font-style: italic;
 }
